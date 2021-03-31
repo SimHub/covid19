@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "serve & parcel watch ./app.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "bulma-pageloader": "^0.3.0",
+    "dotenv": "^8.2.0"
+  }
+}
