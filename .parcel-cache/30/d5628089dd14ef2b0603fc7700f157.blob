@@ -1,0 +1,14 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+class Covid {
+  constructor(url) {
+    this.url = url;
+    this.url = url;
+  }
+  async getData() {
+    const res = await fetch(this.url);
+    const out = await res.json();
+    return out;
+  }
+}
+exports.default = Covid;

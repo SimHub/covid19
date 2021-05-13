@@ -23,7 +23,7 @@ tags
 [._]*.un~
 
 # dotenv environment variables file
-.env
+# .env
 .env.test
 .env*.local
 
@@ -33,3 +33,4 @@ jspm_packages/
 
 # parcel bundler
 dist/
+.parcel-cache/

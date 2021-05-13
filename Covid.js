@@ -1,5 +1,5 @@
 export default class Covid {
-  constructor(private url: string) {
+  constructor(url) {
     this.url = url;
   }
   async getData() {
