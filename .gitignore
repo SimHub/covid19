@@ -34,3 +34,4 @@ jspm_packages/
 # parcel bundler
 dist/
 .parcel-cache/
+.cache/
