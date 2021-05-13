@@ -7,6 +7,7 @@ const pageload = document.querySelector("#progress");
 const title = document.querySelector("#aktuell");
 const selectBL = document.querySelector("#selectBL");
 
+// Bundeland & bl_id
 const blHsh = {
   "Schleswig-Holstein": 1,
   Hamburg: 2,
@@ -26,6 +27,7 @@ const blHsh = {
   Berlin: 11,
 };
 
+let mychart;
 let cov = new Covid(process.env.URL);
 
 var ctx = document.getElementById("myChart").getContext("2d");
@@ -42,19 +44,23 @@ let arrBlIds = [];
 init();
 
 selectBL.addEventListener("change", (e) => {
-  let val = e.target.value;
-  console.log(val);
-  // if (val !== "null") covid19Chart(val);
+  debugger;
+  // console.log(pageload);
+
+  let id = e.target.value;
+  if (id !== "null") covid19Chart(id);
   // return;
 });
 
 function init() {
+  pageload.classList.add("is-active");
+
   cov.getData().then((i) => {
+    chartSet.add(i);
     i.features.forEach((item) => {
       // console.log(item);
       let bl = item.attributes.BL;
       let bl_id = item.attributes.BL_ID;
-      chartSet.add(item);
       chartSetBlNames.add(bl);
     });
     chartSetBlNames.forEach((bl) => {
@@ -64,15 +70,27 @@ function init() {
       op.value = blHsh[bl];
       selectBL.appendChild(op);
     });
+    pageload.classList.remove("is-active");
   });
 }
 
 function covid19Chart(id) {
-  pageload.classList.add("is-active");
-  cov.getData().then((i) => {
+  _labels = [];
+  _data = [];
+  _color = [];
+  _last_update = "";
+
+  if (mychart !== undefined) {
+    // console.log(mychart);
+    mychart.destroy();
+  }
+  chartSet.forEach((i) => {
+    // console.log(id, i);
+    // });
+    // cov.getData().then((i) => {
     _last_update = " Aktualisierung: " + i.features[0].attributes.last_update;
     i.features.forEach((item) => {
-      console.log(i);
+      // console.log(i);
       if (item.attributes.BL_ID !== id) return;
       if (item.attributes.cases7_per_100k > 100) {
         _color.push("rgb(255, 99, 132)");
@@ -82,12 +100,12 @@ function covid19Chart(id) {
       _data.push(item.attributes.cases7_per_100k.toFixed(1));
       _labels.push(item.attributes.GEN);
     });
-    pageload.classList.remove("is-active");
+    // pageload.classList.remove("is-active");
 
-    console.log([title]);
+    // console.log([title]);
     title.innerText = _last_update;
 
-    var chart = new Chart(ctx, {
+    mychart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: _labels,
@@ -102,19 +120,29 @@ function covid19Chart(id) {
         ],
       },
       options: {
+        // events: ["mousemove", "mouseout", "click", "touchstart", "touchmove"],
+
         plugins: {
-          tooltip: {
-            enabled: true,
-            usePointStyle: true,
-            callbacks: {
-              label: function (context) {
-                var label = context.dataset.label || "";
-                return label;
-              },
-            },
-          },
+          decimation: this.decimation,
+          // tooltip: {
+          // enabled: true,
+          // usePointStyle: true,
+          // callbacks: {
+          // label: function (context) {
+          // var label = context.dataset.label || "";
+          // return label;
+          // },
+          // },
+          // },
         },
       },
     });
-  });
+  }); // end fetch
+  // console.log(_data, _labels, _color);
+}
+
+function removeElement(el) {
+  var elem = document.querySelector(el);
+  elem.parentNode.removeChild(elem);
+  return false;
 }
