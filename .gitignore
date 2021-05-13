@@ -24,6 +24,7 @@ tags
 
 # dotenv environment variables file
 # .env
+._.env
 .env.test
 .env*.local
 
