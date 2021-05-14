@@ -1,13 +1,15 @@
-// require("dotenv").config();
-// import "./style.css";
-import "./node_modules/bulma-pageloader/dist/css/bulma-pageloader.min.css";
-import Covid from "./Covid";
+import Covid from "./Covid.js";
 
 const pageload = document.querySelector("#progress");
 const title = document.querySelector("#aktuell");
 const selectBL = document.querySelector("#selectBL");
+const URL =
+  "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=1%3D1&outFields=GEN,last_update,OBJECTID,BL_ID,BL,cases7_per_100k&returnGeometry=false&outSR=4326&f=json";
 
-// Bundeland & bl_id
+const _decimation = {
+  enabled: false,
+  algorithm: "min-max",
+};
 const blHsh = {
   "Schleswig-Holstein": 1,
   Hamburg: 2,
@@ -28,7 +30,7 @@ const blHsh = {
 };
 
 let mychart;
-let cov = new Covid(process.env.URL);
+let cov = new Covid(URL);
 
 var ctx = document.getElementById("myChart").getContext("2d");
 let _labels = [];
@@ -44,17 +46,12 @@ let arrBlIds = [];
 init();
 
 selectBL.addEventListener("change", (e) => {
-  debugger;
-  // console.log(pageload);
-
   let id = e.target.value;
   if (id !== "null") covid19Chart(id);
-  // return;
 });
 
 function init() {
   pageload.classList.add("is-active");
-
   cov.getData().then((i) => {
     chartSet.add(i);
     i.features.forEach((item) => {
@@ -81,13 +78,9 @@ function covid19Chart(id) {
   _last_update = "";
 
   if (mychart !== undefined) {
-    // console.log(mychart);
     mychart.destroy();
   }
   chartSet.forEach((i) => {
-    // console.log(id, i);
-    // });
-    // cov.getData().then((i) => {
     _last_update = " Aktualisierung: " + i.features[0].attributes.last_update;
     i.features.forEach((item) => {
       // console.log(i);
@@ -100,18 +93,13 @@ function covid19Chart(id) {
       _data.push(item.attributes.cases7_per_100k.toFixed(1));
       _labels.push(item.attributes.GEN);
     });
-    // pageload.classList.remove("is-active");
-
-    // console.log([title]);
     title.innerText = _last_update;
-
     mychart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: _labels,
         datasets: [
           {
-            // label: ["Fälle letzte 7 Tage/100.000 EW - NRW ", _last_update],
             label: "",
             backgroundColor: _color,
             borderColor: "rgb(255, 99, 132)",
@@ -120,25 +108,12 @@ function covid19Chart(id) {
         ],
       },
       options: {
-        // events: ["mousemove", "mouseout", "click", "touchstart", "touchmove"],
-
         plugins: {
-          decimation: this.decimation,
-          // tooltip: {
-          // enabled: true,
-          // usePointStyle: true,
-          // callbacks: {
-          // label: function (context) {
-          // var label = context.dataset.label || "";
-          // return label;
-          // },
-          // },
-          // },
+          decimation: _decimation,
         },
       },
     });
   }); // end fetch
-  // console.log(_data, _labels, _color);
 }
 
 function removeElement(el) {
