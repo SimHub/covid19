@@ -1,13 +1,26 @@
 {
+  "name": "covid19",
+  "version": "1.0.0",
+  "description": "Covid19 incidence Germany",
+  "main": "app.js",
   "scripts": {
-    "start": "serve & parcel watch ./app.js"
+    "start": "serve"
   },
-  "devDependencies": {
-    "typescript": "^4.2.3"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimHub/covid19.git"
   },
+  "keywords": [
+    "covid19",
+    "charts"
+  ],
+  "author": "SimHub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SimHub/covid19/issues"
+  },
+  "homepage": "https://github.com/SimHub/covid19#readme",
   "dependencies": {
-    "bulma-pageloader": "^0.3.0",
-    "dotenv": "^8.2.0",
     "serve": "^11.3.2"
   }
 }
