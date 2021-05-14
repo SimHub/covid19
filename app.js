@@ -1,5 +1,5 @@
-require("dotenv").config();
-import "./style.css";
+// require("dotenv").config();
+// import "./style.css";
 import "./node_modules/bulma-pageloader/dist/css/bulma-pageloader.min.css";
 import Covid from "./Covid";
 
