@@ -1,3 +1,9 @@
+:root {
+  --select-border: #777;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+}
+
 .loader-wrapper {
   position: absolute;
   top: 0;
@@ -27,9 +33,25 @@
 }
 
 body {
-  background: #ededed;
   min-height: 100vh;
+  background-color: black;
+  color: white;
   font-family: "Roboto", sans-serif;
+}
+select {
+  appearance: none;
+  outline: none;
+  width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  border: none;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
 #selectBL {
   height: 30px;
