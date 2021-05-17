@@ -63,7 +63,8 @@ select {
   color: #828282;
 }
 #progress.pageloader {
-  background: linear-gradient(-30deg, #4f38a4, #3c353e 45%, #38a49a 45%) #4f38a4;
+  /* background: linear-gradient(-30deg, #4f38a4, #3c353e 45%, #38a49a 45%) #4f38a4; */
+  background: linear-gradient(-30deg, #000, #c43d3d 45%, #38a49a 45%) #4f38a4;
 }
 .native-main {
   padding: 2% 1% 5%;
@@ -116,7 +117,9 @@ select {
 .native-js {
   margin: auto;
   /* background: linear-gradient(-30deg, #4f38a4, #3c353e 45%, #4f38a4 45%) #4f38a4; */
-  background: linear-gradient(-30deg, #4f38a4, #3c353e 45%, #38a49a 45%) #4f38a4;
+  /* background: linear-gradient(-30deg, #4f38a4, #3c353e 45%, #38a49a 45%) #4f38a4; */
+  /* background: linear-gradient(-30deg, #000, #b70000 45%, #38a49a 45%) #4f38a4; */
+  background: linear-gradient(-30deg, #000, #c43d3d 45%, #38a49a 45%) #4f38a4;
   border-radius: 15px;
   width: 500px;
 }
