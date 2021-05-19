@@ -1,5 +1,11 @@
 # Covid19 incidence Germany
 
+### DEMO
+
+[Go here](https://simhub.github.io/covid19/)
+
+---
+
 ![covid19 image](/img/covid19.png)
 
 ### Install
