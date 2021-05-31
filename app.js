@@ -1,5 +1,7 @@
 import Covid from "./Covid.js";
 
+const blTitle = document.querySelector(".bl-title");
+const nativeMainBox = document.querySelector(".native-main");
 const pageload = document.querySelector("#progress");
 const title = document.querySelector("#aktuell");
 const selectBL = document.querySelector("#selectBL");
@@ -29,7 +31,6 @@ const blHsh = {
   Berlin: 11,
 };
 
-let mychart;
 let cov = new Covid(URL);
 
 var ctx = document.getElementById("myChart").getContext("2d");
@@ -47,6 +48,8 @@ init();
 
 selectBL.addEventListener("change", (e) => {
   let id = e.target.value;
+  nativeMainBox.classList.add("posAbsolute");
+  blTitle.classList.add("hide");
   if (id !== "null") covid19Chart(id);
 });
 
@@ -77,8 +80,8 @@ function covid19Chart(id) {
   _color = [];
   _last_update = "";
 
-  if (mychart !== undefined) {
-    mychart.destroy();
+  if (window.bar !== undefined) {
+    window.bar.destroy();
   }
   chartSet.forEach((i) => {
     _last_update = " Aktualisierung: " + i.features[0].attributes.last_update;
@@ -94,7 +97,7 @@ function covid19Chart(id) {
       _labels.push(item.attributes.GEN);
     });
     title.innerText = _last_update;
-    mychart = new Chart(ctx, {
+    window.bar = new Chart(ctx, {
       type: "bar",
       data: {
         labels: _labels,
@@ -111,12 +114,12 @@ function covid19Chart(id) {
         decimation: _decimation,
         id: "custom_canvas_background_color",
         beforeDraw: (chart) => {
-          const ctx = chart.canvas.getContext("2d");
-          ctx.save();
-          ctx.globalCompositeOperation = "destination-over";
-          ctx.fillStyle = "black";
-          ctx.fillRect(0, 0, chart.width, chart.height);
-          ctx.restore();
+          const _ctx = chart.canvas.getContext("2d");
+          _ctx.save();
+          _ctx.globalCompositeOperation = "destination-over";
+          _ctx.fillStyle = "black";
+          _ctx.fillRect(0, 0, chart.width, chart.height);
+          _ctx.restore();
         },
       },
     });

@@ -33,7 +33,6 @@
 }
 
 body {
-  min-height: 100vh;
   background-color: black;
   color: white;
   font-family: "Roboto", sans-serif;
@@ -149,5 +148,11 @@ select {
     margin: -5px;
     border-radius: inherit;
     background: linear-gradient(-30deg, #000, #c43d3d 100%, #38a49a) #000000;
+  }
+  .hide {
+    display: none;
+  }
+  .posAbsolute {
+    position: absolute;
   }
 }
