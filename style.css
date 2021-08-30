@@ -52,6 +52,16 @@ select {
   background-color: #fff;
   background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
+#reset {
+  width: 50px;
+  height: 30px;
+  background: darkorange;
+  appearance: none;
+  border: none;
+  border-radius: 5%;
+  margin-left: 1%;
+  cursor: pointer;
+}
 #selectBL {
   height: 30px;
   width: 222px;

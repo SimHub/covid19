@@ -1,5 +1,59 @@
+// import { resetZoom } from "chartjs-plugin-zoom";
 import Covid from "./Covid.js";
 
+const scaleOpts = {
+  reverse: true,
+  ticks: {
+    callback: (val, index, ticks) =>
+      index === 0 || index === ticks.length - 1 ? null : val,
+  },
+  grid: {
+    borderColor: "#00FF00",
+    color: "rgba( 0, 0, 0, 0.1)",
+  },
+  title: {
+    display: true,
+    text: (ctx) => ctx.scale.axis + " axis",
+  },
+};
+const scales = {
+  x: {
+    position: "top",
+  },
+  y: {
+    position: "right",
+  },
+};
+Object.keys(scales).forEach((scale) => Object.assign(scales[scale], scaleOpts));
+// </block:scales>
+
+// <block:zoom:0>
+const zoomOptions = {
+  limits: {
+    // x: { min: -200, max: 200, minRange: 50 },
+    // y: { min: -200, max: 200, minRange: 50 },
+  },
+  pan: {
+    enabled: true,
+    mode: "xy",
+  },
+  zoom: {
+    wheel: {
+      enabled: true,
+    },
+    pinch: {
+      enabled: true,
+    },
+    mode: "xy",
+    onZoomComplete({ chart }) {
+      // This update is needed to display up to date zoom level in the title.
+      // Without this, previous zoom level is displayed.
+      // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
+      chart.update("none");
+    },
+  },
+};
+////////////
 const blTitle = document.querySelector(".bl-title");
 const nativeMainBox = document.querySelector(".native-main");
 const pageload = document.querySelector("#progress");
@@ -47,10 +101,17 @@ let arrBlIds = [];
 init();
 
 selectBL.addEventListener("change", (e) => {
+  const btn = document.createElement("button");
+  btn.id = "reset";
+  btn.classList.add("posAbsolute");
+  btn.innerText = "Reset";
   let id = e.target.value;
   nativeMainBox.classList.add("posAbsolute");
+  nativeMainBox.appendChild(btn);
   blTitle.classList.add("hide");
   if (id !== "null") covid19Chart(id);
+
+  btn.addEventListener("click", resetZoomChart);
 });
 
 function init() {
@@ -110,24 +171,35 @@ function covid19Chart(id) {
           },
         ],
       },
-      plugins: {
-        decimation: _decimation,
-        id: "custom_canvas_background_color",
-        beforeDraw: (chart) => {
-          const _ctx = chart.canvas.getContext("2d");
-          _ctx.save();
-          _ctx.globalCompositeOperation = "destination-over";
-          _ctx.fillStyle = "black";
-          _ctx.fillRect(0, 0, chart.width, chart.height);
-          _ctx.restore();
+      options: {
+        // scales: scales,
+        plugins: {
+          zoom: zoomOptions,
+          // title: {
+          // display: true,
+          // position: "bottom",
+          // },
+          decimation: _decimation,
+          id: "custom_canvas_background_color",
+          beforeDraw: (chart) => {
+            const _ctx = chart.canvas.getContext("2d");
+            _ctx.save();
+            _ctx.globalCompositeOperation = "destination-over";
+            _ctx.fillStyle = "black";
+            _ctx.fillRect(0, 0, chart.width, chart.height);
+            _ctx.restore();
+          },
         },
       },
-    });
-  }); // end fetch
+    }); // End Chart
+  }); // End Fetch
 }
 
 function removeElement(el) {
   var elem = document.querySelector(el);
   elem.parentNode.removeChild(elem);
   return false;
+}
+function resetZoomChart() {
+  window.bar.resetZoom();
 }
