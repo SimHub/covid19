@@ -201,3 +201,6 @@ function removeElement(el) {
   elem.parentNode.removeChild(elem);
   return false;
 }
+function resetZoomChart() {
+  window.bar.resetZoom();
+}
